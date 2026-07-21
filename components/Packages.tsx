@@ -52,7 +52,7 @@ export default function Packages() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tourPackages.map((pkg, index) => {
             // Encode the WhatsApp message so spaces and special characters don't break the URL
-            const whatsappMessage = encodeURIComponent(`Hello Ajaybhai, I want to inquire about the ${pkg.title} package.`);
+            const whatsappMessage = encodeURIComponent(`Hello Ajay Patel, I want to inquire about the ${pkg.title} package.`);
             const whatsappLink = `https://wa.me/917802062340?text=${whatsappMessage}`;
 
             return (
