@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Star } from "lucide-react";
 
 const reviews = [
@@ -11,7 +11,7 @@ const reviews = [
     date: "June 2026",
     text: "Booked a sleeper bus for the Maharashtra Jyotirlinga tour. The bus was exceptionally clean, the seats were comfortable, and Ajaybhai's management was perfect. Highly recommended for family trips!",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop", // Placeholder avatar
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop",
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const reviews = [
     date: "July 2026",
     text: "We went on a one-day monsoon picnic to Saputara. The driver was very safe and polite. The entire itinerary was followed perfectly, giving us plenty of time at Gira Waterfall.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop", // Placeholder avatar
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
   },
   {
     id: 3,
@@ -29,11 +29,11 @@ const reviews = [
     date: "May 2026",
     text: "Hired a 17-seater Tempo Traveller for a corporate offsite to the Statue of Unity. Premium AC, pushback seats, and a very smooth ride. Mahadev Tour & Travels is our go-to from now on.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop", // Placeholder avatar
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
   },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -41,7 +41,7 @@ const containerVariants = {
   }
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
