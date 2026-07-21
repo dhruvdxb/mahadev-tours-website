@@ -3,18 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp"; // 1. Import it here!
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Mahadev Tour & Travels | Premium Journeys",
-  description: "Discover unforgettable journeys across Gujarat and beyond with luxury buses, tempo travellers, and curated tour packages.",
-  openGraph: {
-    title: "Mahadev Tour & Travels",
-    description: "Premium travel booking, religious tours, and luxury transport in Surat, Gujarat.",
-    type: "website",
-    locale: "en_IN",
-  },
+  title: "Mahadev Tours & Travels",
+  description: "Premium travel experiences and spiritual journeys in Gujarat.",
 };
 
 export default function RootLayout({
@@ -23,11 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} font-sans flex min-h-screen flex-col`}>
+    <html lang="en">
+      <body className={inter.className}>
         <Navbar />
-        <main className="flex-1">{children}</main>
+        
+        {/* Your page content */}
+        <div className="min-h-screen">
+          {children}
+        </div>
+        
         <Footer />
+        
+        {/* 2. Place it here so it renders on every page! */}
+        <FloatingWhatsApp />
+        
       </body>
     </html>
   );
