@@ -1,175 +1,160 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { Phone, MapPin, Clock, MessageCircle, Send, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { MapPin, Phone, MessageCircle, Send, Clock, ShieldCheck } from "lucide-react";
 
 export default function ContactPage() {
-  const whatsappNumber = "917802062340";
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Format the message for WhatsApp from the form inputs
+    const text = encodeURIComponent(
+      `Hello Ajaybhai, my name is ${formData.name} (${formData.phone}). Message: ${formData.message}`
+    );
+    window.open(`https://wa.me/917802062340?text=${text}`, "_blank");
+    setSubmitted(true);
+  };
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-24">
-      {/* Page Header */}
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl mb-16 text-center">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6"
-        >
-          Get in Touch
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-lg text-muted-foreground max-w-2xl mx-auto"
-        >
-          Whether you need to book a sleeper coach, plan a family trip, or inquire about our monsoon specials, we are here to help.
-        </motion.p>
-      </div>
+    <main className="min-h-screen bg-white pt-24 pb-20">
+      <div className="container mx-auto px-4 lg:px-8 max-w-6xl">
+        
+        {/* Simple Minimal Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-primary font-bold text-sm tracking-wider uppercase bg-primary/10 px-3 py-1 rounded-full">
+            Get in Touch
+          </span>
+          <h1 className="text-4xl font-black text-gray-900 mt-4 mb-3 tracking-tight">
+            We'd Love to Hear From You
+          </h1>
+          <p className="text-gray-500 text-base">
+            Have questions about departures or custom bookings? Drop a message below or chat with Ajaybhai directly.
+          </p>
+        </div>
 
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column: Contact Info & Map */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col gap-10"
-          >
-            {/* Contact Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="bg-muted/30 p-6 rounded-3xl border border-border flex flex-col gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground text-lg">Call Us</h3>
-                  <p className="text-muted-foreground text-sm mt-1 mb-3">Ajaybhai Patel</p>
-                  <a href={`tel:+${whatsappNumber}`} className="text-primary font-semibold hover:underline">
-                    +91 78020 62340
-                  </a>
-                </div>
-              </div>
-
-              <div className="bg-muted/30 p-6 rounded-3xl border border-border flex flex-col gap-4">
-                <div className="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center text-green-600">
-                  <MessageCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground text-lg">WhatsApp</h3>
-                  <p className="text-muted-foreground text-sm mt-1 mb-3">Available 24/7</p>
-                  <a 
-                    href={`https://wa.me/${whatsappNumber}`} 
-                    target="_blank"
-                    className="text-green-600 font-semibold hover:underline"
-                  >
-                    Message Now
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-muted/30 p-6 rounded-3xl border border-border flex flex-col gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-foreground text-lg">Our Office</h3>
-                <p className="text-muted-foreground mt-2 leading-relaxed">
-                  Near Jalaram Mandir Parking,<br />
-                  Palanpur Jakatnaka,<br />
-                  Surat, Gujarat
-                </p>
-              </div>
-            </div>
-
-            {/* Google Maps Embed Placeholder */}
-            <div className="w-full h-[250px] bg-muted rounded-3xl overflow-hidden border border-border relative">
-              {/* Replace the src with your actual Google Maps Embed link */}
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.4170949015!2d72.7398947!3d21.1593403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={false} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                className="grayscale opacity-90 hover:grayscale-0 transition-all duration-500"
-              ></iframe>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-background border border-border rounded-[2.5rem] p-8 md:p-12 shadow-xl shadow-primary/5"
-          >
-            <div className="mb-8 flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold text-foreground">Send an Inquiry</h2>
-            </div>
-
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Full Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-muted/50 focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Phone Number</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+91 00000 00000"
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-muted/50 focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Inquiry Type</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-border bg-muted/50 focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm text-foreground appearance-none">
-                  <option value="">Select an option</option>
-                  <option value="bus">Bus / Vehicle Booking</option>
-                  <option value="package">Tour Package Inquiry</option>
-                  <option value="custom">Custom Corporate/Family Trip</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Message</label>
-                <textarea 
-                  rows={4}
-                  placeholder="Tell us about your travel plans..."
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-muted/50 focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm resize-none"
-                ></textarea>
-              </div>
-
-              <button 
-                type="submit"
-                className="w-full group flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl text-base font-bold shadow-md hover:bg-primary/90 transition-all"
-              >
-                Send Message
-                <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </button>
+          {/* Left Side: Quick Contact Details (5 Cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Direct Details</h3>
               
-              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mt-4">
-                <Clock className="w-3.5 h-3.5" />
-                <span>We typically reply within 1 hour during business hours.</span>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 font-bold uppercase">Call / WhatsApp</p>
+                    <a href="tel:+917802062340" className="text-gray-900 font-bold text-base hover:text-primary transition-colors">
+                      +91 78020 62340
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
+                    <MapPin className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 font-bold uppercase">Boarding Point</p>
+                    <p className="text-gray-900 font-bold text-sm">
+                      Lal Ganapati Mandir, Surat, Gujarat
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
+                    <Clock className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 font-bold uppercase">Timing</p>
+                    <p className="text-gray-900 font-bold text-sm">
+                      Mon - Sun: 8:00 AM - 9:00 PM
+                    </p>
+                  </div>
+                </div>
               </div>
-            </form>
-          </motion.div>
+
+              {/* Quick WhatsApp Button inside card */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <Link
+                  href="https://wa.me/917802062340?text=Hello%20Ajaybhai,%20I%20have%20an%20inquiry."
+                  target="_blank"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-4 rounded-xl font-bold text-sm hover:bg-[#20bd5a] transition-all shadow-sm"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Instant WhatsApp Chat
+                </Link>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Right Side: Interactive Form that triggers WhatsApp (7 Cols) */}
+          <div className="lg:col-span-7">
+            <div className="bg-white p-8 md:p-10 rounded-3xl border border-gray-200 shadow-sm">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Send an Inquiry</h3>
+              <p className="text-gray-500 text-sm mb-6">
+                Fill this out and it will automatically open WhatsApp with your details ready to send.
+              </p>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-700 mb-2">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Rahul Patel"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-700 mb-2">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="e.g. 9876543210"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-700 mb-2">Your Message or Query</label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="Which tour or date are you looking for?"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold text-sm shadow-md hover:bg-primary/90 transition-all"
+                >
+                  <Send className="w-4 h-4" />
+                  Send Message via WhatsApp
+                </button>
+              </form>
+            </div>
+          </div>
 
         </div>
+
       </div>
-    </div>
+    </main>
   );
 }
