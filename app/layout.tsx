@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth light" style={{ colorScheme: "light" }}>
       <body className={`${inter.variable} font-sans flex min-h-screen flex-col`}>
         <Navbar />
         <main className="flex-1">{children}</main>
