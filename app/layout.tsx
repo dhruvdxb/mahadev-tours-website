@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp"; // 1. Import it here!
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,20 +18,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className="scroll-smooth light"
+      style={{ colorScheme: "light" }}
+    >
       <body className={inter.className}>
         <Navbar />
-        
+
         {/* Your page content */}
         <div className="min-h-screen">
           {children}
         </div>
-        
+
         <Footer />
-        
-        {/* 2. Place it here so it renders on every page! */}
+
+        {/* Floating WhatsApp Button */}
         <FloatingWhatsApp />
-        
       </body>
     </html>
   );
