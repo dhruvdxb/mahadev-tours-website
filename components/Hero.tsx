@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { MessageCircle, ArrowRight, ChevronDown } from "lucide-react";
+import { MessageCircle, ArrowRight, ChevronDown, Star } from "lucide-react";
 
 export default function Hero() {
   const ref = useRef(null);
@@ -29,7 +29,6 @@ export default function Hero() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
           style={{ 
-            // Points to the local image you just added to the public folder!
             backgroundImage: "url('/hero-bg.png')",
           }}
         />
@@ -84,6 +83,7 @@ export default function Hero() {
           Experience the soul of India with Mahadev Tours. Premium sleeper coaches, expertly curated itineraries, and moments that last a lifetime.
         </motion.p>
 
+        {/* Call to Action Buttons */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,6 +106,39 @@ export default function Hero() {
             View Packages
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
+        </motion.div>
+
+        {/* NEW: Trust Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 bg-black/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10"
+        >
+          {/* Overlapping Avatars & Text */}
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-3">
+              <img src="https://i.pravatar.cc/100?img=32" alt="Traveler" className="w-8 h-8 rounded-full border-2 border-black object-cover" />
+              <img src="https://i.pravatar.cc/100?img=47" alt="Traveler" className="w-8 h-8 rounded-full border-2 border-black object-cover" />
+              <img src="https://i.pravatar.cc/100?img=12" alt="Traveler" className="w-8 h-8 rounded-full border-2 border-black object-cover" />
+            </div>
+            <p className="text-sm text-gray-300 font-medium">Join 10,000+ Happy Travelers</p>
+          </div>
+
+          {/* Vertical Divider (Hidden on mobile) */}
+          <div className="hidden sm:block w-px h-5 bg-white/20"></div>
+
+          {/* Rating */}
+          <div className="flex items-center gap-2">
+            <div className="flex text-yellow-500">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-current" />
+              ))}
+            </div>
+            <p className="text-sm text-gray-300 font-medium">
+              4.9/5 <span className="text-gray-400 font-normal">Rating</span>
+            </p>
+          </div>
         </motion.div>
       </div>
 
