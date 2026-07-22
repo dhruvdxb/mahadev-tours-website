@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { MessageCircle, ArrowRight, ChevronDown, Star } from "lucide-react";
 
 export default function Hero() {
@@ -21,16 +22,18 @@ export default function Hero() {
       ref={ref} 
       className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black"
     >
-      {/* Background Image with Parallax */}
+      {/* Background Image with Parallax - Upgraded to Next.js Image */}
       <motion.div
         style={{ y, opacity }}
         className="absolute inset-0 w-full h-full"
       >
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
-          style={{ 
-            backgroundImage: "url('/CoverPhoto.png')",
-          }}
+        <Image
+          src="/CoverPhoto.png"
+          alt="Mahadev Tours Cover"
+          fill
+          priority // Forces the browser to load this immediately for better mobile speed scores
+          sizes="100vw"
+          className="object-cover scale-105"
         />
         {/* Strictly black gradient so the text is readable but the image shines through */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90 z-10" />
@@ -57,16 +60,17 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium tracking-wide mb-6">
+          <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-medium tracking-wide mb-6">
             Premium Travel Experiences Since 2016
           </span>
         </motion.div>
 
+        {/* Scaled down text-5xl to text-4xl on base mobile to prevent overflow */}
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1]"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1]"
         >
           Epic Journeys. <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-foreground to-accent">
@@ -74,11 +78,12 @@ export default function Hero() {
           </span>
         </motion.h1>
 
+        {/* Adjusted padding and font sizes for mobile reading */}
         <motion.p 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mt-6 text-lg md:text-2xl text-gray-300 font-light max-w-2xl"
+          className="mt-6 text-base sm:text-lg md:text-2xl text-gray-300 font-light max-w-2xl px-2"
         >
           Experience the soul of India with Mahadev Tours. Premium sleeper coaches, expertly curated itineraries, and moments that last a lifetime.
         </motion.p>
@@ -108,7 +113,7 @@ export default function Hero() {
           </Link>
         </motion.div>
 
-        {/* NEW: Trust Badge */}
+        {/* Trust Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
