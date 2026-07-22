@@ -5,6 +5,7 @@ import StatsBanner from "@/components/StatsBanner";
 // import Destinations from "@/components/Destinations";
 import Reviews from "@/components/Reviews";
 import CTA from "@/components/CTA";
+import VehicleRental from "@/components/VehicleRental";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <Packages />
       <Services />
+      <VehicleRental />
       {/* <Destinations /> */}
       <Reviews />
       <CTA />

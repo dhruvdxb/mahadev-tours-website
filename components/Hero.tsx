@@ -29,7 +29,7 @@ export default function Hero() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
           style={{ 
-            backgroundImage: "url('/hero-bg.png')",
+            backgroundImage: "url('/CoverPhoto.png')",
           }}
         />
         {/* Strictly black gradient so the text is readable but the image shines through */}

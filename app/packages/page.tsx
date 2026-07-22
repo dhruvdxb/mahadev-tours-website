@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Clock, Search, SlidersHorizontal } from "lucide-react";
+import { MapPin, Calendar, Clock, Search, SlidersHorizontal, Bus, Utensils, Info } from "lucide-react";
 import Link from "next/link";
 
-// 1. Define the type with the categories array
+// 1. Define the type combining categories and image/details
 type TourPackage = {
   id: number;
   title: string;
@@ -19,18 +19,113 @@ type TourPackage = {
   };
   location: string;
   categories: string[];
+  description?: string;
+  notes?: string;
+  image: string;
 };
 
-// 2. The JSON data (self-contained)
+// 2. The JSON data (Merged with local images and categories)
 const tourPackages: TourPackage[] = [
-  { "id": 1, "title": "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)", "duration": "3 Days", "departureDates": ["July 23 (Thursday Night)"], "vehicle": "Sleeper AC Bus", "inclusions": ["Meals", "Stay"], "price": { "startingFrom": 5001, "details": "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" }, "location": "Maharashtra", "categories": ["Religious"] },
-  { "id": 2, "title": "Mayadevi Waterfall Monsoon Special", "duration": "1 Day", "departureDates": ["July 4 (Saturday)", "July 19 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Tea", "Breakfast", "Meals"], "price": { "startingFrom": 900, "details": "₹900 (All Inclusive)" }, "location": "Gujarat", "categories": ["Monsoon", "Weekend Trip"] },
-  { "id": 3, "title": "Padamdungari & Unai Nature Tour", "duration": "1 Day", "departureDates": ["July 5 (Sunday)", "July 18 (Saturday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 500, "details": "₹500 (Fare Only)" }, "location": "Gujarat", "categories": ["Monsoon", "Family"] },
-  { "id": 4, "title": "Vangan-Ankda Waterfall Tour", "duration": "1 Day", "departureDates": ["July 11 (Saturday)", "July 26 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Tea", "Breakfast", "Meals"], "price": { "startingFrom": 900, "details": "₹900 (All Inclusive)" }, "location": "Gujarat", "categories": ["Monsoon", "Weekend Trip"] },
-  { "id": 5, "title": "Saputara, Gira Waterfall & Waghai Garden One-Day Picnic", "duration": "1 Day", "departureDates": ["July 12 (Sunday)", "July 25 (Saturday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 600, "details": "₹600 (Fare Only)" }, "location": "Saputara, Gujarat", "categories": ["Monsoon", "Family"] },
-  { "id": 6, "title": "Statue of Unity, Harsiddhi Mata & Gumandev Darshan", "duration": "1 Day", "departureDates": ["July 26 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 600, "details": "₹600 (Fare Only)" }, "location": "Kevadia, Gujarat", "categories": ["Family", "Religious"] },
-  { "id": 7, "title": "Ujjain & Omkareshwar Spiritual Tour", "duration": "3 Days (1 Night Ujjain)", "departureDates": ["July 9 (Thursday)", "July 23 (Thursday)"], "vehicle": "Sleeper AC Bus", "inclusions": ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"], "price": { "startingFrom": 5100, "details": "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" }, "location": "Madhya Pradesh", "categories": ["Religious"] },
-  { "id": 8, "title": "Diu, Somnath & Dwarka Spiritual Tour", "duration": "3 Days", "departureDates": ["July 9 (Thursday)", "July 23 (Thursday)"], "vehicle": "Sleeper AC Bus", "inclusions": ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"], "price": { "startingFrom": 5100, "details": "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" }, "location": "Gujarat / Diu", "categories": ["Religious"] }
+  {
+    id: 1,
+    title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
+    duration: "3 Days",
+    departureDates: ["July 23 (Thursday Night)"],
+    vehicle: "Sleeper AC Bus",
+    inclusions: ["Meals", "Stay"],
+    price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
+    location: "Maharashtra",
+    categories: ["Religious"],
+    image: "/Images/Maharashtra Jyotirlinga.png"
+  },
+  {
+    id: 2,
+    title: "Mayadevi Waterfall Monsoon Special",
+    duration: "1 Day",
+    departureDates: ["July 4 (Saturday)", "July 19 (Sunday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Tea", "Breakfast", "Meals"],
+    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
+    location: "Gujarat",
+    categories: ["Monsoon", "Weekend Trip"],
+    image: "/Images/Mayadevi Waterfall.png"
+  },
+  {
+    id: 3,
+    title: "Padamdungari & Unai Nature Tour",
+    duration: "1 Day",
+    departureDates: ["July 5 (Sunday)", "July 18 (Saturday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Transportation Only"],
+    price: { startingFrom: 500, details: "₹500 (Fare Only)" },
+    location: "Gujarat",
+    categories: ["Monsoon", "Family"],
+    image: "/Images/Padamdungari & Unai Nature Tour.png"
+  },
+  {
+    id: 4,
+    title: "Vangan-Ankda Waterfall Tour",
+    duration: "1 Day",
+    departureDates: ["July 11 (Saturday)", "July 26 (Sunday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Tea", "Breakfast", "Meals"],
+    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
+    location: "Gujarat",
+    categories: ["Monsoon", "Weekend Trip"],
+    image: "/Images/Vangan-Ankda Waterfall Tour.png"
+  },
+  {
+    id: 5,
+    title: "Saputara, Gira Waterfall & Waghai Garden One-Day Picnic",
+    duration: "1 Day",
+    departureDates: ["July 12 (Sunday)", "July 25 (Saturday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Transportation Only"],
+    price: { startingFrom: 600, details: "₹600 (Fare Only)" },
+    location: "Saputara, Gujarat",
+    categories: ["Monsoon", "Family"],
+    image: "/Images/Saputara, Gira Waterfall.png"
+  },
+  {
+    id: 6,
+    title: "Statue of Unity, Harsiddhi Mata & Gumandev Darshan",
+    duration: "1 Day",
+    departureDates: ["July 26 (Sunday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Transportation Only"],
+    price: { startingFrom: 600, details: "₹600 (Fare Only)" },
+    location: "Kevadia, Gujarat",
+    categories: ["Family", "Religious"],
+    image: "/Images/Statue of Unity.png"
+  },
+  {
+    id: 7,
+    title: "Ujjain & Omkareshwar Spiritual Tour",
+    description: "Includes Mahakaleshwar, Kal Bhairav, Harsiddhi Ma, Baglamukhi, Sehore Kubereshwar Dham, Omkareshwar, and Mamleshwar.",
+    duration: "3 Days (1 Night Ujjain)",
+    departureDates: ["July 9 (Thursday)", "July 23 (Thursday)"],
+    vehicle: "Sleeper AC Bus",
+    inclusions: ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"],
+    price: { startingFrom: 5100, details: "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" },
+    notes: "Sightseeing at own cost.",
+    location: "Madhya Pradesh",
+    categories: ["Religious"],
+    image: "Images/Ujjain-Omkareshwer.png" 
+  },
+  {
+    id: 8,
+    title: "Diu, Somnath & Dwarka Spiritual Tour",
+    description: "Includes Somnath (1 Night), Dwarka (1 Night), Rukmini Temple, Bet Dwarka, Gopi Talav, Nageshwar.",
+    duration: "3 Days",
+    departureDates: ["July 9 (Thursday)", "July 23 (Thursday)"],
+    vehicle: "Sleeper AC Bus",
+    inclusions: ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"],
+    price: { startingFrom: 5100, details: "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" },
+    notes: "Sightseeing at own cost.",
+    location: "Gujarat / Diu",
+    categories: ["Religious"],
+    image: "/Images/Saurastra.png" 
+  }
 ];
 
 const categoriesList = ["All", "Religious", "Monsoon", "Weekend Trip", "Family"];
@@ -51,15 +146,15 @@ export default function PackagesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-white pt-24 pb-16">
+    <main className="min-h-screen bg-background pt-24 pb-16">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
         
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
             Explore Packages
           </h1>
-          <p className="text-lg text-gray-500 max-w-2xl">
+          <p className="text-lg text-muted-foreground max-w-2xl">
             Discover curated journeys crafted for spiritual peace, weekend thrills, and family bonding.
           </p>
         </div>
@@ -68,32 +163,32 @@ export default function PackagesPage() {
           
           {/* SIDEBAR FILTERS */}
           <aside className="w-full lg:w-1/4 shrink-0">
-            <div className="bg-[#f8fafc] rounded-2xl p-6 border border-gray-100 sticky top-28">
+            <div className="bg-card rounded-2xl p-6 border border-border shadow-sm sticky top-28">
               <div className="flex items-center gap-2 mb-6">
-                <SlidersHorizontal className="w-5 h-5 text-gray-700" />
-                <h3 className="text-lg font-bold text-gray-900">Filters</h3>
+                <SlidersHorizontal className="w-5 h-5 text-foreground" />
+                <h3 className="text-lg font-bold text-foreground">Filters</h3>
               </div>
 
               {/* Search Bar */}
               <div className="mb-8">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-muted-foreground mb-2">
                   Search Destination
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
                     type="text"
                     placeholder="e.g. Somnath, Saputara..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   />
                 </div>
               </div>
 
               {/* Categories */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                <label className="block text-sm font-semibold text-muted-foreground mb-3">
                   Categories
                 </label>
                 <div className="flex flex-col gap-2">
@@ -103,8 +198,8 @@ export default function PackagesPage() {
                       onClick={() => setSelectedCategory(category)}
                       className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         selectedCategory === category
-                          ? "bg-primary text-white shadow-md shadow-primary/20"
-                          : "bg-white text-gray-600 border border-gray-200 hover:border-primary/50 hover:bg-gray-50"
+                          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                          : "bg-background text-muted-foreground border border-border hover:border-primary/50 hover:bg-muted/50"
                       }`}
                     >
                       {category}
@@ -119,8 +214,8 @@ export default function PackagesPage() {
           <div className="w-full lg:w-3/4">
             
             {filteredPackages.length === 0 ? (
-              <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                <p className="text-gray-500 text-lg">No packages found matching your criteria.</p>
+              <div className="text-center py-20 bg-card rounded-2xl border border-dashed border-border">
+                <p className="text-muted-foreground text-lg">No packages found matching your criteria.</p>
                 <button 
                   onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
                   className="mt-4 text-primary font-semibold hover:underline"
@@ -129,9 +224,9 @@ export default function PackagesPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredPackages.map((pkg, index) => {
-                  const whatsappMessage = encodeURIComponent(`Hello Ajaybhai, I want to book the ${pkg.title} package.`);
+                  const whatsappMessage = encodeURIComponent(`Hello Ajay Patel, I want to inquire about the ${pkg.title} package.`);
                   const whatsappLink = `https://wa.me/917802062340?text=${whatsappMessage}`;
 
                   return (
@@ -140,61 +235,98 @@ export default function PackagesPage() {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: index * 0.05 }}
-                      className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group"
+                      className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
                     >
-                      {/* Image Area */}
-                      <div className="relative h-48 bg-gray-100 overflow-hidden">
-                        <img 
-                          src={`https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=80&sig=${pkg.id}`}
+                      {/* Image Placeholder Container */}
+                      <div className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                        <img
+                          src={pkg.image}
                           alt={pkg.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
+                        
+                        {/* Category Badge */}
+                        <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm text-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">
                           {pkg.categories[0]}
+                        </div>
+
+                        {/* Duration Badge */}
+                        <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm text-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm z-10">
+                          <Clock className="w-3.5 h-3.5" />
+                          {pkg.duration}
                         </div>
                       </div>
 
-                      {/* Card Body */}
-                      <div className="p-5 flex flex-col flex-grow">
-                        <div className="flex items-center gap-1.5 text-gray-500 text-xs font-medium mb-2 uppercase tracking-wider">
+                      {/* Content Container */}
+                      <div className="p-6 flex flex-col flex-grow">
+                        
+                        {/* Location */}
+                        <div className="flex items-center gap-1.5 text-muted-foreground text-xs font-bold uppercase tracking-wider mb-2">
                           <MapPin className="w-3.5 h-3.5" />
                           {pkg.location}
                         </div>
                         
-                        <h3 className="text-lg font-bold text-gray-900 leading-tight mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-foreground leading-tight mb-3 group-hover:text-primary transition-colors">
                           {pkg.title}
                         </h3>
 
-                        <div className="space-y-2 mb-6">
-                          <div className="flex items-start gap-2 text-sm text-gray-600">
-                            <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span>{pkg.departureDates.join(", ")}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <Clock className="w-4 h-4 text-primary shrink-0" />
-                            <span>{pkg.duration}</span>
-                          </div>
-                        </div>
+                        {/* Optional Description */}
+                        {pkg.description && (
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                            {pkg.description}
+                          </p>
+                        )}
 
-                        {/* Footer (Price & CTA) */}
-                        <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-                          <div>
-                            <p className="text-[10px] uppercase text-gray-500 font-semibold tracking-wider">
-                              Price
-                            </p>
-                            <p className="text-xl font-black text-gray-900">
-                              ₹{pkg.price.startingFrom.toLocaleString("en-IN")}
-                            </p>
+                        {/* Details List */}
+                        <div className="space-y-2.5 mb-6 bg-muted/30 p-4 rounded-xl border border-border/50">
+                          <div className="flex items-start gap-2.5 text-sm text-foreground">
+                            <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                            <span className="font-medium">{pkg.departureDates.join(", ")}</span>
                           </div>
                           
-                          <Link 
+                          <div className="flex items-start gap-2.5 text-sm text-foreground">
+                            <Bus className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                            <span>{pkg.vehicle}</span>
+                          </div>
+                          
+                          <div className="flex items-start gap-2.5 text-sm text-foreground">
+                            <Utensils className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                            <span>{pkg.inclusions.join(", ")}</span>
+                          </div>
+
+                          {/* Optional Notes */}
+                          {pkg.notes && (
+                            <div className="flex items-start gap-2.5 text-xs text-muted-foreground pt-1">
+                              <Info className="w-4 h-4 shrink-0" />
+                              <span className="italic">{pkg.notes}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Pricing and CTA */}
+                        <div className="mt-auto pt-2 flex flex-col xl:flex-row items-center justify-between gap-4">
+                          <div className="w-full xl:w-auto text-center xl:text-left">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                              Starting From
+                            </p>
+                            <p className="text-2xl font-black text-primary">
+                              ₹{pkg.price.startingFrom.toLocaleString("en-IN")}
+                            </p>
+                            <p className="text-[11px] text-muted-foreground font-medium mt-0.5 max-w-[150px] leading-tight mx-auto xl:mx-0">
+                              {pkg.price.details}
+                            </p>
+                          </div>
+
+                          <Link
                             href={whatsappLink}
                             target="_blank"
-                            className="bg-primary text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-primary/90 hover:scale-105 transition-all"
+                            className="w-full xl:w-auto text-center bg-primary text-primary-foreground px-6 py-3 rounded-xl text-sm font-bold shadow-md hover:bg-primary/90 hover:scale-105 transition-all duration-300"
                           >
-                            Book Now
+                            Book on WhatsApp
                           </Link>
                         </div>
+
                       </div>
                     </motion.div>
                   );
