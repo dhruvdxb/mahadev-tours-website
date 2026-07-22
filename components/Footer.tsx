@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Mahadev Tour & Travels</h3>
             <p className="text-sm text-gray-400 max-w-sm leading-relaxed">
-              Premium travel booking, religious tours, and luxury transport in Surat, Gujarat. Experience the soul of India with expertly curated itineraries and comfortable sleeper coaches.
+              Luxury travel booking, religious tours, and luxury transport in Surat, Gujarat. Experience the soul of India with expertly curated itineraries and comfortable sleeper coaches.
             </p>
           </div>
 
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* Column 3: Contact Info */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4">Contact & Pickup</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Contact Us</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-3">
                 <div className="bg-primary/20 p-2 rounded-full">
@@ -54,8 +54,9 @@ export default function Footer() {
                   <MapPin className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-white">Default Boarding Point</p>
-                  <p>Lal Ganapati Mandir,<br />Surat, Gujarat</p>
+                  {/* Fixed: Removed <Address> tag that caused the error */}
+                  <p className="font-semibold text-white">Office Address</p>
+                  <p>SHOP NO. 2, MAHADEV TOUR AND TRAVELS, Darshan Society,Palanpur Jakatnaka - Canal Road<br />Surat, Gujarat</p>
                 </div>
               </li>
             </ul>

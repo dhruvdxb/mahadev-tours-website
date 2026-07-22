@@ -61,8 +61,27 @@ export default function Contact() {
               <div>
                 <h3 className="font-bold text-foreground text-lg mb-1">Call or WhatsApp</h3>
                 <p className="text-muted-foreground text-sm mb-2">We are available 24/7 for support.</p>
-                <a href="https://wa.me/917802062340" target="_blank" className="text-primary font-bold hover:underline">
-                  +91 78020 62340
+                <div className="flex flex-col space-y-1">
+                  <a href="https://wa.me/917802062340" target="_blank" rel="noreferrer" className="text-primary font-bold hover:underline">
+                    +91 78020 62340
+                  </a>
+                  <a href="tel:+919998653276" className="text-primary font-bold hover:underline">
+                    +91 99986 53276
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Email Card */}
+            <div className="bg-card border border-border p-6 rounded-2xl shadow-sm flex items-start gap-4">
+              <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div className="overflow-hidden">
+                <h3 className="font-bold text-foreground text-lg mb-1">Email Us</h3>
+                <p className="text-muted-foreground text-sm mb-2">Drop us a line anytime.</p>
+                <a href="mailto:mahadevtourandtravels.surat@gmail.com" className="text-primary font-bold hover:underline text-sm break-words">
+                  mahadevtourandtravels.surat@gmail.com
                 </a>
               </div>
             </div>
@@ -76,7 +95,7 @@ export default function Contact() {
                 <h3 className="font-bold text-foreground text-lg mb-1">Business Hours</h3>
                 <p className="text-muted-foreground text-sm">
                   Monday - Saturday<br />
-                  9:00 AM - 8:00 PM<br />
+                  10:00 AM - 8:00 PM<br />
                   <span className="text-xs italic mt-1 block">Sunday: Available on WhatsApp</span>
                 </p>
               </div>
