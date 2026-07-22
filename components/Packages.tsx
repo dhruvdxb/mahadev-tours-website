@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Clock, Bus, Utensils, Info } from "lucide-react";
+import { MapPin, Calendar, Clock, Bus, Utensils, Info, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 type TourPackage = {
@@ -18,17 +18,54 @@ type TourPackage = {
   location: string;
   description?: string;
   notes?: string;
+  image: string; 
 };
 
 const tourPackages: TourPackage[] = [
-  { "id": 1, "title": "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)", "duration": "3 Days", "departureDates": ["July 23 (Thursday Night)"], "vehicle": "Sleeper AC Bus", "inclusions": ["Meals", "Stay"], "price": { "startingFrom": 5001, "details": "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" }, "location": "Maharashtra" },
-  { "id": 2, "title": "Mayadevi Waterfall Monsoon Special", "duration": "1 Day", "departureDates": ["July 4 (Saturday)", "July 19 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Tea", "Breakfast", "Meals"], "price": { "startingFrom": 900, "details": "₹900 (All Inclusive)" }, "location": "Gujarat" },
-  { "id": 3, "title": "Padamdungari & Unai Nature Tour", "duration": "1 Day", "departureDates": ["July 5 (Sunday)", "July 18 (Saturday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 500, "details": "₹500 (Fare Only)" }, "location": "Gujarat" },
-  { "id": 4, "title": "Vangan-Ankda Waterfall Tour", "duration": "1 Day", "departureDates": ["July 11 (Saturday)", "July 26 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Tea", "Breakfast", "Meals"], "price": { "startingFrom": 900, "details": "₹900 (All Inclusive)" }, "location": "Gujarat" },
-  { "id": 5, "title": "Saputara, Gira Waterfall & Waghai Garden One-Day Picnic", "duration": "1 Day", "departureDates": ["July 12 (Sunday)", "July 25 (Saturday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 600, "details": "₹600 (Fare Only)" }, "location": "Saputara, Gujarat" },
-  { "id": 6, "title": "Statue of Unity, Harsiddhi Mata & Gumandev Darshan", "duration": "1 Day", "departureDates": ["July 26 (Sunday)"], "vehicle": "Seating Bus", "inclusions": ["Transportation Only"], "price": { "startingFrom": 600, "details": "₹600 (Fare Only)" }, "location": "Kevadia, Gujarat" },
-  { "id": 7, "title": "Ujjain & Omkareshwar Spiritual Tour", "description": "Includes Mahakaleshwar, Kal Bhairav, Harsiddhi Ma, Baglamukhi, Sehore Kubereshwar Dham, Omkareshwar, and Mamleshwar.", "duration": "3 Days (1 Night Ujjain)", "departureDates": ["July 9 (Thursday)", "July 23 (Thursday)"], "vehicle": "Sleeper AC Bus", "inclusions": ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"], "price": { "startingFrom": 5100, "details": "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" }, "notes": "Sightseeing at own cost.", "location": "Madhya Pradesh" },
-  { "id": 8, "title": "Diu, Somnath & Dwarka Spiritual Tour", "description": "Includes Somnath (1 Night), Dwarka (1 Night), Rukmini Temple, Bet Dwarka, Gopi Talav, Nageshwar.", "duration": "3 Days", "departureDates": ["July 9 (Thursday)", "July 23 (Thursday)"], "vehicle": "Sleeper AC Bus", "inclusions": ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"], "price": { "startingFrom": 5100, "details": "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" }, "notes": "Sightseeing at own cost.", "location": "Gujarat / Diu" }
+  {
+    id: 1,
+    title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
+    duration: "3 Days",
+    departureDates: ["July 23 (Thursday Night)"],
+    vehicle: "Sleeper AC Bus",
+    inclusions: ["Meals", "Stay"],
+    price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
+    location: "Maharashtra",
+    image: "/Images/Maharashtra Jyotirlinga.png"
+  },
+  {
+    id: 2,
+    title: "Mayadevi Waterfall Monsoon Special",
+    duration: "1 Day",
+    departureDates: ["July 4 (Saturday)", "July 19 (Sunday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Tea", "Breakfast", "Meals"],
+    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
+    location: "Gujarat",
+    image: "/Images/Mayadevi Waterfall.png"
+  },
+  {
+    id: 3,
+    title: "Padamdungari & Unai Nature Tour",
+    duration: "1 Day",
+    departureDates: ["July 5 (Sunday)", "July 18 (Saturday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Transportation Only"],
+    price: { startingFrom: 500, details: "₹500 (Fare Only)" },
+    location: "Gujarat",
+    image: "/Images/Padamdungari & Unai Nature Tour.png"
+  },
+  {
+    id: 4,
+    title: "Vangan-Ankda Waterfall Tour",
+    duration: "1 Day",
+    departureDates: ["July 11 (Saturday)", "July 26 (Sunday)"],
+    vehicle: "Seating Bus",
+    inclusions: ["Tea", "Breakfast", "Meals"],
+    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
+    location: "Gujarat",
+    image: "/Images/Vangan-Ankda Waterfall Tour.png"
+  }
 ];
 
 export default function Packages() {
@@ -48,10 +85,9 @@ export default function Packages() {
           </div>
         </div>
 
-        {/* Dynamic Grid: 1 col mobile, 2 tablet, 3 large desktop */}
+        {/* Dynamic Grid: Slice(0,3) forces only the first 3 to show on the homepage */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tourPackages.map((pkg, index) => {
-            // Encode the WhatsApp message so spaces and special characters don't break the URL
+          {tourPackages.slice(0, 3).map((pkg, index) => {
             const whatsappMessage = encodeURIComponent(`Hello Ajay Patel, I want to inquire about the ${pkg.title} package.`);
             const whatsappLink = `https://wa.me/917802062340?text=${whatsappMessage}`;
 
@@ -66,9 +102,8 @@ export default function Packages() {
               >
                 {/* Image Placeholder Container */}
                 <div className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                  {/* Using a generic Unsplash travel placeholder image */}
-                  <img 
-                    src={`https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80&sig=${pkg.id}`} 
+                  <img
+                    src={pkg.image}
                     alt={pkg.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -127,7 +162,7 @@ export default function Packages() {
                     )}
                   </div>
 
-                  {/* Pricing and CTA (Forced to bottom using mt-auto) */}
+                  {/* Pricing and CTA */}
                   <div className="mt-auto pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="w-full sm:w-auto text-center sm:text-left">
                       <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
@@ -141,7 +176,7 @@ export default function Packages() {
                       </p>
                     </div>
 
-                    <Link 
+                    <Link
                       href={whatsappLink}
                       target="_blank"
                       className="w-full sm:w-auto text-center bg-primary text-primary-foreground px-6 py-3 rounded-xl text-sm font-bold shadow-md hover:bg-primary/90 hover:scale-105 transition-all duration-300"
@@ -154,6 +189,17 @@ export default function Packages() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* View All Packages Button */}
+        <div className="mt-16 flex justify-center">
+          <Link
+            href="/packages"
+            className="group flex items-center gap-2 bg-transparent border-2 border-primary text-primary px-8 py-3.5 rounded-full text-base font-bold hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
+          >
+            View All Packages
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
       </div>
