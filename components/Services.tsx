@@ -15,13 +15,13 @@ import {
 
 const services = [
   {
-    title: "Premium Bus Booking",
+    title: "Luxury Bus Booking",
     description: "AC & Non-AC Sleeper, Seating, and Mini buses for all your travel needs.",
     icon: Bus,
   },
   {
     title: "Pilgrimage Tours",
-    description: "Carefully curated religious tours including Jyotirlinga and Chardham yatra.",
+    description: "Carefully curated religious tours.",
     icon: Flame,
   },
   {
@@ -132,7 +132,7 @@ export default function Services() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground"
           >
-            From booking a luxury sleeper coach to planning a complete family vacation, we handle every detail with precision.
+            From booking a luxury sleeper coach to planning a complete family vacation, group tours packages.
           </motion.p>
         </div>
 

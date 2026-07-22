@@ -14,7 +14,7 @@ const vehicles = [
   {
     id: 1,
     name: "AC Sleeper Bus",
-    description: "Premium overnight travel experience with private luxury berths.",
+    description: "Luxury overnight travel experience with private luxury berths.",
     image: "/vehicles/Luxury Sleeper AC Bus.png",
     features: [
       { icon: <Luggage className="w-4 h-4" />, text: "Luxury reclining sleeper berths" },
@@ -52,11 +52,11 @@ const vehicles = [
   },
   {
     id: 4,
-    name: "Mini Bus",
-    description: "Versatile 15–26 seater mini buses for mid-sized groups.",
+    name: "Mini Bus / Urbania / Tempo Traveler",
+    description: "Versatile 25–33 seater mini buses for mid-sized groups.",
     image: "/vehicles/Mini Bus.png",
     features: [
-      { icon: <Users className="w-4 h-4" />, text: "15–26 Seater" },
+      { icon: <Users className="w-4 h-4" />, text: "25–33 Seater" },
       { icon: <Users className="w-4 h-4" />, text: "Family Functions" },
       { icon: <MapPinned className="w-4 h-4" />, text: "Pilgrimage Tours" },
       { icon: <Briefcase className="w-4 h-4" />, text: "Corporate Outings" },
@@ -83,7 +83,7 @@ export default function VehicleRental() {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6">
-            Premium Vehicle Rental Services
+            Luxury Vehicle Rental Services
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
             Travel comfortably with our well-maintained fleet available for tours, family trips, corporate travel, pilgrimages, weddings, airport transfers, and group transportation across Gujarat and India.
