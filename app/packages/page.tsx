@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Search, SlidersHorizontal, Bus, Utensils, Info } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image"; // <-- Added Next.js Image component
 
 // 1. Define the type combining categories and image/details
 type TourPackage = {
@@ -110,7 +111,7 @@ const tourPackages: TourPackage[] = [
     notes: "Sightseeing at own cost.",
     location: "Madhya Pradesh",
     categories: ["Religious"],
-    image: "Images/Ujjain-Omkareshwer.png" 
+    image: "/Images/Ujjain-Omkareshwer.png" // Ensured leading slash here
   },
   {
     id: 8,
@@ -237,12 +238,14 @@ export default function PackagesPage() {
                       transition={{ duration: 0.4, delay: index * 0.05 }}
                       className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
                     >
-                      {/* Image Placeholder Container */}
+                      {/* Image Placeholder Container - Switched to Next.js Image */}
                       <div className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                        <img
+                        <Image
                           src={pkg.image}
                           alt={pkg.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         
                         {/* Category Badge */}
@@ -307,13 +310,14 @@ export default function PackagesPage() {
                         {/* Pricing and CTA */}
                         <div className="mt-auto pt-2 flex flex-col xl:flex-row items-center justify-between gap-4">
                           <div className="w-full xl:w-auto text-center xl:text-left">
-                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                            {/* FIXED FONT SIZES HERE FOR MOBILE */}
+                            <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
                               Starting From
                             </p>
                             <p className="text-2xl font-black text-primary">
                               ₹{pkg.price.startingFrom.toLocaleString("en-IN")}
                             </p>
-                            <p className="text-[11px] text-muted-foreground font-medium mt-0.5 max-w-[150px] leading-tight mx-auto xl:mx-0">
+                            <p className="text-xs text-muted-foreground font-medium mt-1 max-w-[150px] leading-tight mx-auto xl:mx-0">
                               {pkg.price.details}
                             </p>
                           </div>

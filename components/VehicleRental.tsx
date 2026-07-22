@@ -7,6 +7,7 @@ import {
   Briefcase, Plane
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image"; // <-- Added Next.js Image component
 
 // 1. Vehicle Data Structure
 const vehicles = [
@@ -104,12 +105,14 @@ export default function VehicleRental() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col h-full"
               >
-                {/* Vehicle Image Container */}
+                {/* Vehicle Image Container - Upgraded to Next.js Image */}
                 <div className="relative h-56 w-full overflow-hidden bg-muted flex items-center justify-center">
-                  <img
+                  <Image
                     src={vehicle.image}
                     alt={vehicle.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   {/* Glassmorphism Badge */}
                   <div className="absolute top-4 left-4 bg-background/80 backdrop-blur-md text-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10 flex items-center gap-1.5">

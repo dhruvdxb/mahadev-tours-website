@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Bus, Utensils, Info, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image"; // <-- Added Next.js Image component
 
 type TourPackage = {
   id: number;
@@ -100,12 +101,14 @@ export default function Packages() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
               >
-                {/* Image Placeholder Container */}
+                {/* Image Placeholder Container - Switched to Next.js Image */}
                 <div className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                  <img
+                  <Image
                     src={pkg.image}
                     alt={pkg.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   
                   {/* Duration Badge */}
@@ -165,13 +168,14 @@ export default function Packages() {
                   {/* Pricing and CTA */}
                   <div className="mt-auto pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="w-full sm:w-auto text-center sm:text-left">
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                      {/* FIXED FONT SIZES HERE FOR MOBILE */}
+                      <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
                         Starting From
                       </p>
                       <p className="text-2xl font-black text-primary">
                         ₹{pkg.price.startingFrom.toLocaleString("en-IN")}
                       </p>
-                      <p className="text-[11px] text-muted-foreground font-medium mt-0.5 max-w-[150px] leading-tight mx-auto sm:mx-0">
+                      <p className="text-xs text-muted-foreground font-medium mt-1 max-w-[150px] leading-tight mx-auto sm:mx-0">
                         {pkg.price.details}
                       </p>
                     </div>
