@@ -147,7 +147,7 @@ export default function PackagesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-background pt-24 pb-16">
+    <main className="min-h-screen bg-background pt-36 pb-16">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
         
         {/* Header */}
