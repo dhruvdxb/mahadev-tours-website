@@ -76,7 +76,7 @@ const WHATSAPP_NUMBER = "917802062340";
 
 export default function VehiclesPage() {
   return (
-    <main className="min-h-screen bg-[#fafafa] pt-28 pb-20">
+    <main className="min-h-screen bg-[#fafafa] pt-32 pb-20">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         
         {/* Header Section */}

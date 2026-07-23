@@ -41,12 +41,13 @@ export default function Navbar() {
             : "bg-transparent border-transparent"
         }`}
       >
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
+        {/* Updated code */}
+        <div className="mx-auto flex h-22 md:h-26 max-w-7xl items-center justify-between px-6 md:px-10">
           
           {/* Logo (Image-based) */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/Mahadevlogo.png"
+              src="/mahadevlogo.png"
               alt="Mahadev Tours & Travels"
               width={200}
               height={120}
@@ -147,7 +148,7 @@ export default function Navbar() {
             >
               <div className="flex justify-between items-center mb-8">
                  <Image
-                  src="/Mahadevlogo.png"
+                  src="/mahadevlogo.png"
                   alt="Mahadev Tours & Travels"
                   width={150}
                   height={80}

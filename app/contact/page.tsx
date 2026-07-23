@@ -5,7 +5,7 @@ import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 
 export default function Contact() {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-36 pb-16">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         
         {/* Page Header */}
