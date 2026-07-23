@@ -12,39 +12,53 @@ const links = [
   { name: "Packages", href: "/packages" },
   { name: "Vehicles", href: "/vehicles" },
   { name: "Contact", href: "/contact" },
+  { name: "Reviews", href: "/reviews" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Check if we are on the homepage
   const isHomePage = pathname === "/";
-  
-  // Show the dark glass background if we scroll down, OR if we are NOT on the homepage
   const showGlass = scrolled || !isHomePage;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 30);
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowNavbar(false); // Scrolling down
+      } else {
+        setShowNavbar(true); // Scrolling up
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+      <motion.header
+        initial={{ y: 0 }}
+        animate={{ y: showNavbar ? 0 : "-100%" }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
           showGlass
-            ? "bg-[#0B0F14]/80 backdrop-blur-md border-white/10 shadow-lg"
-            : "bg-transparent border-transparent"
+            ? "bg-[#0B0F14]/90 backdrop-blur-md border-white/10 shadow-lg"
+            : "bg-[#0B0F14]/40 backdrop-blur-sm border-transparent"
         }`}
       >
-        {/* Updated code */}
         <div className="mx-auto flex h-22 md:h-26 max-w-7xl items-center justify-between px-6 md:px-10">
           
-          {/* Logo (Image-based) */}
+          {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
               src="/mahadevlogo.png"
@@ -114,9 +128,9 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Mobile */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
