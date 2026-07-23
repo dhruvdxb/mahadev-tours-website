@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -11,8 +11,29 @@ import {
   Star,
 } from "lucide-react";
 
+// Add your actual image paths here!
+const backgroundImages = [
+  "/CoverPhoto.png", // Image 1
+  "/Images/Maharashtra Jyotirlinga.png", // Image 2 (Replace with your actual file name)
+  "/Images/Statue of Unity.png", // Image 3 (Replace with your actual file name)
+];
+
 export default function Hero() {
   const ref = useRef(null);
+  
+  // State to track current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-rotate images every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % backgroundImages.length
+      );
+    }, 5000); // 5000ms = 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,21 +49,32 @@ export default function Hero() {
       ref={ref}
       className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black"
     >
-      {/* Background */}
+      {/* Background Slider */}
       <motion.div
         style={{ y, opacity }}
         className="absolute inset-0 h-full w-full"
       >
-        <Image
-          src="/CoverPhoto.png"
-          alt="Mahadev Tours Cover"
-          fill
-          priority
-          sizes="100vw"
-          className="scale-105 object-cover"
-        />
+        <AnimatePresence>
+          <motion.div
+            key={currentImageIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }} // Smooth 1.5s fade
+            className="absolute inset-0 h-full w-full"
+          >
+            <Image
+              src={backgroundImages[currentImageIndex]}
+              alt={`Mahadev Tours Cover ${currentImageIndex + 1}`}
+              fill
+              priority
+              sizes="100vw"
+              className="scale-105 object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Overlay */}
+        {/* Overlay (Keeps text readable over images) */}
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
       </motion.div>
 
