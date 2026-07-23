@@ -41,7 +41,7 @@ const NAV_ITEMS: NavItem[] = [
 const SCROLL_THRESHOLD = 40;
 const HIDE_THRESHOLD = 120;
 
-export default function Navbar(): JSX.Element {
+export default function Navbar() {
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
 
