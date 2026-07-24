@@ -17,8 +17,8 @@ const BRAND = {
   textDark: '#1F2937',
 } as const;
 
-const PHONE_NUMBER = '+919876543210';
-const WHATSAPP_NUMBER = '919876543210';
+const PHONE_NUMBER = '+917802062340';
+const WHATSAPP_NUMBER = '917802062340';
 const WHATSAPP_MESSAGE =
   'Hi, I would like to know more about Mahadev Tours & Travels packages.';
 const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -112,7 +112,7 @@ export default function Navbar() {
       className={`fixed left-0 right-0 z-50 flex justify-center transition-[top,background-color] duration-500 ${
         isScrolled
           ? 'top-4'
-          : `top-0 ${isHomePage ? 'bg-transparent' : 'bg-black'}`
+          : `top-0 ${isHomePage ? 'bg-transparent' : 'bg-[#137573]'}` // <-- Changed to your primary brand/footer color!
       }`}
       animate={{
         y: isHidden ? -120 : 0,
@@ -128,9 +128,7 @@ export default function Navbar() {
         }`}
       >
         {/* ── LEFT: Logo ── */}
-        {/* ── LEFT: Logo ── */}
         <Link href="/" className="flex items-center group" aria-label="Mahadev Tours & Travels — Home">
-          {/* You can change w-[200px] and sm:w-[240px] below to make the logo wider/narrower */}
           <div className="relative flex items-center h-12 sm:h-16 w-[200px] sm:w-[240px] transition-all duration-300">
             <Image
               src="/mahadevlogo.png"
@@ -179,7 +177,7 @@ export default function Navbar() {
                       isScrolled ? 'bg-[#137573]/10' : 'bg-white/15'
                     }`}
                     transition={
-                      prefersReducedMotion // Fixed typo here!
+                      prefersReducedMotion
                         ? { duration: 0 }
                         : { type: 'spring', stiffness: 380, damping: 30 }
                     }
@@ -212,12 +210,14 @@ export default function Navbar() {
             className={`group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               isScrolled
                 ? 'bg-[#137573] text-white hover:bg-[#0f5e5c] focus-visible:ring-[#137573] focus-visible:ring-offset-white'
-                : 'bg-white text-[#1F2937] hover:bg-white/90 focus-visible:ring-white'
+                : 'bg-white text-[#137573] hover:bg-white/90 focus-visible:ring-white' // Updated CTA text color to match the theme
             }`}
             aria-label="Chat with us on WhatsApp"
           >
             <MessageSquare
-              className="w-4 h-4 text-[#10B981] fill-[#10B981]/20 transition-transform duration-300 group-hover:rotate-12"
+              className={`w-4 h-4 transition-transform duration-300 group-hover:rotate-12 ${
+                isScrolled ? 'text-white fill-white/20' : 'text-[#137573] fill-[#137573]/20'
+              }`}
               aria-hidden="true"
             />
             <span>WhatsApp Us</span>
@@ -273,7 +273,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-between pb-6 border-b border-neutral-100">
                   <div className="relative w-32 h-10">
                     <Image
-                      src="/Mahadevlogo.png"
+                      src="/mahadevlogo.png"
                       alt="Mahadev Tours and Travels"
                       fill
                       className="object-contain object-left brightness-0"
@@ -332,7 +332,7 @@ export default function Navbar() {
                   className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-neutral-200 text-neutral-800 font-medium text-sm hover:bg-neutral-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#137573]"
                 >
                   <Phone className="w-4 h-4 text-[#137573]" aria-hidden="true" />
-                  <span>Call +91 98765 43210</span>
+                  <span>Call +91 78020 62340</span>
                 </a>
 
                 <a

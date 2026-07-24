@@ -27,7 +27,7 @@ const tourPackages: TourPackage[] = [
     id: 1,
     title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
     duration: "3 Days",
-    departureDates: ["July 23 (Thursday Night)"],
+    departureDates: ["July 30 (Thursday Night)"],
     vehicle: "Sleeper AC Bus",
     inclusions: ["Meals", "Stay"],
     price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
