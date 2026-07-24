@@ -4,9 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Search, SlidersHorizontal, Bus, Utensils, Info } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image"; // <-- Added Next.js Image component
+import Image from "next/image";
 
-// 1. Define the type combining categories and image/details
 type TourPackage = {
   id: number;
   title: string;
@@ -25,13 +24,12 @@ type TourPackage = {
   image: string;
 };
 
-// 2. The JSON data (Merged with local images and categories)
 const tourPackages: TourPackage[] = [
   {
     id: 1,
     title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
     duration: "3 Days",
-    departureDates: ["July 23 (Thursday Night)"],
+    departureDates: ["July 30 (Thursday Night)"],
     vehicle: "Sleeper AC Bus",
     inclusions: ["Meals", "Stay"],
     price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
@@ -111,7 +109,7 @@ const tourPackages: TourPackage[] = [
     notes: "Sightseeing at own cost.",
     location: "Madhya Pradesh",
     categories: ["Religious"],
-    image: "/Images/Ujjain-Omkareshwer.png" // Ensured leading slash here
+    image: "/Images/Ujjain-Omkareshwer.png"
   },
   {
     id: 8,
@@ -238,8 +236,8 @@ export default function PackagesPage() {
                       transition={{ duration: 0.4, delay: index * 0.05 }}
                       className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
                     >
-                      {/* Image Placeholder Container - Switched to Next.js Image */}
-                      <div className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                      {/* Image Linked to Dynamic Page */}
+                      <Link href={`/packages/${pkg.id}`} className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center block">
                         <Image
                           src={pkg.image}
                           alt={pkg.title}
@@ -258,7 +256,7 @@ export default function PackagesPage() {
                           <Clock className="w-3.5 h-3.5" />
                           {pkg.duration}
                         </div>
-                      </div>
+                      </Link>
 
                       {/* Content Container */}
                       <div className="p-6 flex flex-col flex-grow">
@@ -269,10 +267,12 @@ export default function PackagesPage() {
                           {pkg.location}
                         </div>
                         
-                        {/* Title */}
-                        <h3 className="text-xl font-bold text-foreground leading-tight mb-3 group-hover:text-primary transition-colors">
-                          {pkg.title}
-                        </h3>
+                        {/* Title Linked to Dynamic Page */}
+                        <Link href={`/packages/${pkg.id}`}>
+                          <h3 className="text-xl font-bold text-foreground leading-tight mb-3 group-hover:text-primary transition-colors">
+                            {pkg.title}
+                          </h3>
+                        </Link>
 
                         {/* Optional Description */}
                         {pkg.description && (
@@ -310,7 +310,6 @@ export default function PackagesPage() {
                         {/* Pricing and CTA */}
                         <div className="mt-auto pt-2 flex flex-col xl:flex-row items-center justify-between gap-4">
                           <div className="w-full xl:w-auto text-center xl:text-left">
-                            {/* FIXED FONT SIZES HERE FOR MOBILE */}
                             <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
                               Starting From
                             </p>
