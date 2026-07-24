@@ -5,127 +5,7 @@ import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Search, SlidersHorizontal, Bus, Utensils, Info } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-
-type TourPackage = {
-  id: number;
-  title: string;
-  duration: string;
-  departureDates: string[];
-  vehicle: string;
-  inclusions: string[];
-  price: {
-    startingFrom: number;
-    details: string;
-  };
-  location: string;
-  categories: string[];
-  description?: string;
-  notes?: string;
-  image: string;
-};
-
-const tourPackages: TourPackage[] = [
-  {
-    id: 1,
-    title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
-    duration: "3 Days",
-    departureDates: ["July 30 (Thursday Night)"],
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["Meals", "Stay"],
-    price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
-    location: "Maharashtra",
-    categories: ["Religious"],
-    image: "/Images/Maharashtra Jyotirlinga.png"
-  },
-  {
-    id: 2,
-    title: "Mayadevi Waterfall Monsoon Special",
-    duration: "1 Day",
-    departureDates: ["July 4 (Saturday)", "July 19 (Sunday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Weekend Trip"],
-    image: "/Images/Mayadevi Waterfall.png"
-  },
-  {
-    id: 3,
-    title: "Padamdungari & Unai Nature Tour",
-    duration: "1 Day",
-    departureDates: ["July 5 (Sunday)", "July 18 (Saturday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 500, details: "₹500 (Fare Only)" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Family"],
-    image: "/Images/Padamdungari & Unai Nature Tour.png"
-  },
-  {
-    id: 4,
-    title: "Vangan-Ankda Waterfall Tour",
-    duration: "1 Day",
-    departureDates: ["July 11 (Saturday)", "July 26 (Sunday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Weekend Trip"],
-    image: "/Images/Vangan-Ankda Waterfall Tour.png"
-  },
-  {
-    id: 5,
-    title: "Saputara, Gira Waterfall & Waghai Garden One-Day Picnic",
-    duration: "1 Day",
-    departureDates: ["July 12 (Sunday)", "July 25 (Saturday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 600, details: "₹600 (Fare Only)" },
-    location: "Saputara, Gujarat",
-    categories: ["Monsoon", "Family"],
-    image: "/Images/Saputara, Gira Waterfall.png"
-  },
-  {
-    id: 6,
-    title: "Statue of Unity, Harsiddhi Mata & Gumandev Darshan",
-    duration: "1 Day",
-    departureDates: ["July 26 (Sunday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 600, details: "₹600 (Fare Only)" },
-    location: "Kevadia, Gujarat",
-    categories: ["Family", "Religious"],
-    image: "/Images/Statue of Unity.png"
-  },
-  {
-    id: 7,
-    title: "Ujjain & Omkareshwar Spiritual Tour",
-    description: "Includes Mahakaleshwar, Kal Bhairav, Harsiddhi Ma, Baglamukhi, Sehore Kubereshwar Dham, Omkareshwar, and Mamleshwar.",
-    duration: "3 Days (1 Night Ujjain)",
-    departureDates: ["July 9 (Thursday)", "July 23 (Thursday)"],
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"],
-    price: { startingFrom: 5100, details: "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" },
-    notes: "Sightseeing at own cost.",
-    location: "Madhya Pradesh",
-    categories: ["Religious"],
-    image: "/Images/Ujjain-Omkareshwer.png"
-  },
-  {
-    id: 8,
-    title: "Diu, Somnath & Dwarka Spiritual Tour",
-    description: "Includes Somnath (1 Night), Dwarka (1 Night), Rukmini Temple, Bet Dwarka, Gopi Talav, Nageshwar.",
-    duration: "3 Days",
-    departureDates: ["July 9 (Thursday)", "July 23 (Thursday)"],
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["1-time Tea/Breakfast", "2-time Meals", "4-Person Room Stay"],
-    price: { startingFrom: 5100, details: "₹5,100 (Upper Berth) / ₹5,600 (Lower Berth)" },
-    notes: "Sightseeing at own cost.",
-    location: "Gujarat / Diu",
-    categories: ["Religious"],
-    image: "/Images/Saurastra.png" 
-  }
-];
+import { tourPackages } from "@/data/packages"; // <-- Centralized data import
 
 const categoriesList = ["All", "Religious", "Monsoon", "Weekend Trip", "Family"];
 
@@ -285,7 +165,7 @@ export default function PackagesPage() {
                         <div className="space-y-2.5 mb-6 bg-muted/30 p-4 rounded-xl border border-border/50">
                           <div className="flex items-start gap-2.5 text-sm text-foreground">
                             <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span className="font-medium">{pkg.departureDates.join(", ")}</span>
+                            <span className="font-medium">{pkg.departureDates?.join(", ") || "Contact for dates"}</span>
                           </div>
                           
                           <div className="flex items-start gap-2.5 text-sm text-foreground">

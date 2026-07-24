@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, use } from "react"; // <-- Added 'use' here
+import { useState, use } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { tourPackages } from "@/data/packages";
 import { 
   Share, 
   Bus, 
@@ -13,157 +16,77 @@ import {
   ChevronUp,
   MessageCircle,
   FileText,
-  Phone
+  Phone,
+  Clock,
+  MapPin,
+  Image as ImageIcon,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  HelpCircle // <-- Added an icon for the FAQ header
 } from "lucide-react";
 
-// Bringing in the data here so the dynamic page can find the specific package
-const tourPackages = [
+// --- DATA (Generic FAQs) ---
+const generalFaqs = [
   {
-    id: 1,
-    title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
-    duration: "3 Days",
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["Meals", "Stay", "Sightseeing"],
-    price: { startingFrom: 5001, details: "per person + taxes", oldPrice: 6500 },
-    location: "Maharashtra",
-    categories: ["Religious"],
-    image: "/Images/Maharashtra Jyotirlinga.png",
-    itinerary: [
-      { day: "Day 0", title: "Overnight journey from Surat", details: "Board the sleeper AC bus at night and begin your spiritual journey towards Maharashtra." },
-      { day: "Day 1", title: "Trimbakeshwar Darshan & Transfer", details: "Morning arrival, freshen up, and proceed for Trimbakeshwar Jyotirlinga darshan. Later, travel to the next destination and check-in to the hotel." },
-      { day: "Day 2", title: "Grishneshwar & Bhimashankar", details: "Visit the remaining two holy Jyotirlingas. Evening return journey back to Surat." }
-    ]
+    question: "How do I confirm my booking?",
+    answer: "To confirm your booking, simply click the 'Book Now' or 'Send Enquiry' button to chat with us on WhatsApp. We require a minimal advance payment to secure your seat."
   },
   {
-    id: 2,
-    title: "Mayadevi Waterfall Monsoon Special",
-    duration: "1 Day",
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "All Inclusive" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Weekend Trip"],
-    image: "/Images/Mayadevi Waterfall.png",
-    itinerary: [
-      { day: "Day 1", title: "Morning Departure & Waterfall Visit", details: "Early morning departure. Enjoy breakfast on the way. Spend the day enjoying the lush green monsoon views and the majestic Mayadevi Waterfall. Return by evening." }
-    ]
+    question: "Are the meals provided pure vegetarian?",
+    answer: "Yes! For all our religious and family tour packages that include meals, we provide strictly pure vegetarian food."
   },
   {
-    id: 3,
-    title: "Padamdungari & Unai Nature Tour",
-    duration: "1 Day",
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 500, details: "Fare Only" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Family"],
-    image: "/Images/Padamdungari & Unai Nature Tour.png",
-    itinerary: [
-      { day: "Day 1", title: "Nature Tour", details: "Explore the beautiful natural surroundings of Padamdungari and take a dip in the Unai hot springs." }
-    ]
+    question: "Can I choose my seat on the bus?",
+    answer: "Seat numbers are allocated on a first-come, first-served basis once the advance payment is received. Let us know your preference on WhatsApp and we will do our best to accommodate you!"
   },
   {
-    id: 4,
-    title: "Vangan-Ankda Waterfall Tour",
-    duration: "1 Day",
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "All Inclusive" },
-    location: "Gujarat",
-    categories: ["Monsoon", "Weekend Trip"],
-    image: "/Images/Vangan-Ankda Waterfall Tour.png",
-    itinerary: [
-      { day: "Day 1", title: "Waterfall Exploration", details: "A full day of fun and trekking near the Vangan-Ankda waterfalls." }
-    ]
-  },
-  {
-    id: 5,
-    title: "Saputara, Gira Waterfall & Waghai Garden One-Day Picnic",
-    duration: "1 Day",
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 600, details: "Fare Only" },
-    location: "Saputara, Gujarat",
-    categories: ["Monsoon", "Family"],
-    image: "/Images/Saputara, Gira Waterfall.png",
-    itinerary: [
-      { day: "Day 1", title: "Saputara Sightseeing", details: "Visit Waghai Botanical Garden, witness the massive Gira Waterfall, and enjoy the hill station vibes at Saputara lake." }
-    ]
-  },
-  {
-    id: 6,
-    title: "Statue of Unity, Harsiddhi Mata & Gumandev Darshan",
-    duration: "1 Day",
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 600, details: "Fare Only" },
-    location: "Kevadia, Gujarat",
-    categories: ["Family", "Religious"],
-    image: "/Images/Statue of Unity.png",
-    itinerary: [
-      { day: "Day 1", title: "SOU & Temples", details: "Morning darshan at Gumandev and Harsiddhi Mata. Afternoon visit to the world's tallest statue, the Statue of Unity." }
-    ]
-  },
-  {
-    id: 7,
-    title: "Ujjain & Omkareshwar Spiritual Tour",
-    duration: "3 Days (1 Night Ujjain)",
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["Tea/Breakfast", "Meals", "Stay"],
-    price: { startingFrom: 5100, details: "Upper Berth" },
-    location: "Madhya Pradesh",
-    categories: ["Religious"],
-    image: "/Images/Ujjain-Omkareshwer.png",
-    itinerary: [
-      { day: "Day 1", title: "Journey to Ujjain", details: "Overnight journey from Surat." },
-      { day: "Day 2", title: "Mahakaleshwar & Local Temples", details: "Visit Mahakaleshwar Jyotirlinga, Kal Bhairav, and Harsiddhi Mata. Night stay in Ujjain." },
-      { day: "Day 3", title: "Omkareshwar & Return", details: "Travel to Omkareshwar for Jyotirlinga darshan. Evening departure for Surat." }
-    ]
-  },
-  {
-    id: 8,
-    title: "Diu, Somnath & Dwarka Spiritual Tour",
-    duration: "3 Days",
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["Tea/Breakfast", "Meals", "Stay"],
-    price: { startingFrom: 5100, details: "Upper Berth" },
-    location: "Gujarat / Diu",
-    categories: ["Religious"],
-    image: "/Images/Saurastra.png",
-    itinerary: [
-      { day: "Day 1", title: "Somnath Darshan", details: "Arrival in Somnath. Jyotirlinga darshan and night stay." },
-      { day: "Day 2", title: "Dwarka", details: "Travel to Dwarka. Visit Dwarkadhish Temple and local sightseeing. Night Stay." },
-      { day: "Day 3", title: "Bet Dwarka & Return", details: "Visit Nageshwar Jyotirlinga, Rukmini Temple, and Bet Dwarka. Evening return journey." }
-    ]
+    question: "What is your cancellation policy?",
+    answer: "Cancellations made 7 days prior to the departure date are eligible for a full refund of the advance. Closer to the trip date, partial deductions may apply to cover pre-booked arrangements."
   }
 ];
 
-// Note the updated type: params is now a Promise
 export default function PackageDetail({ params }: { params: Promise<{ id: string }> }) {
-  // 1. Unwrap the params using React.use()
   const resolvedParams = use(params);
-
-  // 2. Find the specific package based on the unwrapped URL ID
   const pkg = tourPackages.find((p) => p.id === parseInt(resolvedParams.id)) || tourPackages[0];
-
-  // State to handle which itinerary day is expanded
+  
+  // States
   const [expandedDay, setExpandedDay] = useState<string | null>("Day 1");
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0); // Open the first FAQ by default
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const packageGallery = pkg.gallery || [pkg.image];
 
-  const toggleDay = (day: string) => {
-    setExpandedDay(expandedDay === day ? null : day);
-  };
+  // Helper Functions
+  const toggleDay = (day: string) => setExpandedDay(expandedDay === day ? null : day);
+  const toggleFaq = (index: number) => setExpandedFaq(expandedFaq === index ? null : index);
+  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % packageGallery.length);
+  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + packageGallery.length) % packageGallery.length);
 
+  // Links & Meta
   const whatsappMessage = encodeURIComponent(`Hello Ajay Patel, I want to book the ${pkg.title} package.`);
   const whatsappLink = `https://wa.me/917802062340?text=${whatsappMessage}`;
+  const shareTitle = encodeURIComponent(`Check out this ${pkg.duration} trip to ${pkg.location}: ${pkg.title} for just ₹${pkg.price.startingFrom.toLocaleString("en-IN")}!`);
+  const shareUrl = encodeURIComponent(`https://mahadevtours.in/packages/${pkg.id}`);
+
+  // Related Packages Filter
+  const relatedPackages = tourPackages
+    .filter((p) => p.id !== pkg.id)
+    .sort((a, b) => {
+      const aMatch = a.categories.some(c => pkg.categories.includes(c)) ? 1 : 0;
+      const bMatch = b.categories.some(c => pkg.categories.includes(c)) ? 1 : 0;
+      return bMatch - aMatch;
+    })
+    .slice(0, 2);
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-28 pb-16 text-gray-900">
+    <main className="min-h-screen bg-gray-50 pt-28 pb-32 lg:pb-16 text-gray-900 relative">
       <div className="container mx-auto px-4 max-w-6xl">
         
         {/* Top Navigation Tabs */}
         <div className="flex gap-6 border-b border-gray-200 mb-8 pb-4 text-sm font-semibold text-gray-500 overflow-x-auto whitespace-nowrap">
           <span className="text-emerald-600 border-b-2 border-emerald-600 pb-4 -mb-[18px]">About</span>
-          <span className="hover:text-gray-900 cursor-pointer transition-colors">Packages</span>
+          <Link href="/packages"><span className="hover:text-gray-900 cursor-pointer transition-colors">Packages</span></Link>
           <span className="hover:text-gray-900 cursor-pointer transition-colors">Dates</span>
           <span className="hover:text-gray-900 cursor-pointer transition-colors">Itinerary</span>
           <span className="hover:text-gray-900 cursor-pointer transition-colors">Inclusions</span>
@@ -174,6 +97,27 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
           {/* LEFT COLUMN - Main Content */}
           <div className="w-full lg:w-2/3 flex flex-col gap-6">
             
+            {/* Hero Image / Gallery Trigger */}
+            <div 
+              onClick={() => setIsGalleryOpen(true)}
+              className="relative h-64 md:h-[400px] w-full rounded-2xl overflow-hidden shadow-sm group cursor-pointer bg-gray-200"
+            >
+              <Image 
+                src={pkg.image} 
+                alt={pkg.title} 
+                fill 
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 66vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
+              
+              <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-gray-900 px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm font-bold shadow-lg hover:bg-white transition-colors transform group-hover:-translate-y-1 duration-300">
+                <ImageIcon className="w-4 h-4 text-emerald-600" /> 
+                View Gallery ({packageGallery.length})
+              </div>
+            </div>
+
             {/* Header Card */}
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-3">
@@ -190,27 +134,31 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
               
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-4 text-sm text-gray-600">
-                  <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-lg">
+                  <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg">
                     <Map className="w-4 h-4 text-emerald-600" /> {pkg.location}
                   </span>
-                  <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-lg">
+                  <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg">
                     <Bus className="w-4 h-4 text-emerald-600" /> {pkg.vehicle}
                   </span>
                 </div>
                 
-                <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 font-medium text-sm transition-colors shadow-sm">
+                <a 
+                  href={`https://wa.me/?text=${shareTitle}%20${shareUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 font-medium text-sm transition-colors shadow-sm text-gray-700"
+                >
                   <Share className="w-4 h-4" /> Share
-                </button>
+                </a>
               </div>
             </div>
 
             {/* Inclusions Card */}
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-              <h3 className="font-bold text-lg mb-4">What's Included</h3>
+              <h3 className="font-bold text-lg mb-4 text-gray-900">What's Included</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-4">
                 {pkg.inclusions.map((inclusion, idx) => (
-                  <div key={idx} className="flex items-center gap-3 font-medium text-gray-800 text-sm md:text-base">
-                    {/* Render different icons based on text */}
+                  <div key={idx} className="flex items-center gap-3 font-medium text-gray-700 text-sm md:text-base">
                     {inclusion.toLowerCase().includes("bus") || inclusion.toLowerCase().includes("travelling") ? <Bus className="w-5 h-5 text-gray-500" /> :
                      inclusion.toLowerCase().includes("stay") ? <Bed className="w-5 h-5 text-gray-500" /> :
                      inclusion.toLowerCase().includes("meal") || inclusion.toLowerCase().includes("breakfast") ? <Utensils className="w-5 h-5 text-gray-500" /> :
@@ -226,14 +174,14 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
             {pkg.itinerary && (
               <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                  <h2 className="text-2xl font-bold">Itinerary</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">Itinerary</h2>
                   <div className="flex gap-2">
-                    <button className="text-sm border border-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-2 hover:bg-gray-50 shadow-sm transition-colors">
+                    <button className="text-sm border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg flex items-center gap-2 hover:bg-gray-50 shadow-sm transition-colors">
                       <FileText className="w-4 h-4 text-gray-500" /> Get PDF
                     </button>
                     <button 
                       onClick={() => setExpandedDay(null)}
-                      className="text-sm border border-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-2 hover:bg-gray-50 shadow-sm transition-colors"
+                      className="text-sm border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg flex items-center gap-2 hover:bg-gray-50 shadow-sm transition-colors"
                     >
                       Collapse All
                     </button>
@@ -242,7 +190,7 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
 
                 <div className="flex flex-col gap-3">
                   {pkg.itinerary.map((day) => (
-                    <div key={day.day} className="border border-gray-100 rounded-xl overflow-hidden bg-gray-50/50">
+                    <div key={day.day} className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50/50">
                       <button 
                         onClick={() => toggleDay(day.day)}
                         className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-100/50 transition-colors"
@@ -256,7 +204,6 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
                         {expandedDay === day.day ? <ChevronUp className="w-5 h-5 text-gray-500" /> : <ChevronDown className="w-5 h-5 text-gray-500" />}
                       </button>
                       
-                      {/* Accordion Content */}
                       {expandedDay === day.day && (
                         <div className="p-4 pt-0 pl-20 text-gray-600 text-sm leading-relaxed">
                           {day.details}
@@ -267,16 +214,55 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
                 </div>
               </div>
             )}
+
+            {/* NEW: FAQs Section */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-emerald-100 p-2 rounded-lg">
+                  <HelpCircle className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+              </div>
+              
+              <div className="flex flex-col gap-3">
+                {generalFaqs.map((faq, index) => (
+                  <div key={index} className="border border-gray-200 rounded-xl overflow-hidden">
+                    <button 
+                      onClick={() => toggleFaq(index)}
+                      className={`w-full flex items-center justify-between p-4 text-left transition-colors ${
+                        expandedFaq === index ? "bg-emerald-50/50" : "hover:bg-gray-50"
+                      }`}
+                    >
+                      <span className={`font-semibold ${expandedFaq === index ? "text-emerald-700" : "text-gray-900"}`}>
+                        {faq.question}
+                      </span>
+                      {expandedFaq === index ? (
+                        <ChevronUp className="w-5 h-5 text-emerald-600 shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-400 shrink-0" />
+                      )}
+                    </button>
+                    
+                    {expandedFaq === index && (
+                      <div className="p-4 pt-0 text-gray-600 text-sm leading-relaxed bg-emerald-50/50">
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            
           </div>
 
-          {/* RIGHT COLUMN - Sticky Sidebar */}
-          <div className="w-full lg:w-1/3">
+          {/* RIGHT COLUMN - Sticky Sidebar (Hidden on Mobile) */}
+          <div className="hidden lg:block w-full lg:w-1/3">
             <div className="sticky top-28 flex flex-col gap-6">
               
               {/* Pricing & Booking Card */}
               <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                 {pkg.price.oldPrice && (
-                  <div className="bg-green-50 text-green-700 text-xs font-bold text-center py-2 flex items-center justify-center gap-1.5 border-b border-green-100">
+                  <div className="bg-emerald-50 text-emerald-700 text-xs font-bold text-center py-2 flex items-center justify-center gap-1.5 border-b border-emerald-100">
                     <UserCheck className="w-4 h-4" /> Save ₹{(pkg.price.oldPrice - pkg.price.startingFrom).toLocaleString("en-IN")}
                   </div>
                 )}
@@ -298,7 +284,6 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
                     <span className="font-semibold text-gray-900">{pkg.duration}</span>
                   </div>
 
-                  {/* Button color updated to match primary theme */}
                   <Link href={whatsappLink} target="_blank">
                     <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 text-lg">
                       Send Enquiry
@@ -332,7 +317,126 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
           </div>
           
         </div>
+
+        {/* RELATED PACKAGES SECTION */}
+        {relatedPackages.length > 0 && (
+          <div className="mt-16 border-t border-gray-200 pt-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">You Might Also Like</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {relatedPackages.map((relatedPkg) => (
+                <Link 
+                  href={`/packages/${relatedPkg.id}`} 
+                  key={relatedPkg.id} 
+                  className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
+                >
+                  <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                    <Image 
+                      src={relatedPkg.image} 
+                      alt={relatedPkg.title} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                    />
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm z-10">
+                      <Clock className="w-3.5 h-3.5 text-emerald-600" />
+                      {relatedPkg.duration}
+                    </div>
+                  </div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold uppercase tracking-wider mb-2">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {relatedPkg.location}
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 leading-tight mb-2 group-hover:text-emerald-600 transition-colors">
+                      {relatedPkg.title}
+                    </h3>
+                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Starting From</p>
+                        <p className="text-lg font-black text-gray-900">₹{relatedPkg.price.startingFrom.toLocaleString("en-IN")}</p>
+                      </div>
+                      <span className="text-emerald-600 font-semibold text-sm flex items-center gap-1">
+                        View <span className="hidden sm:inline">Package</span> →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
+
+      {/* MOBILE STICKY BOTTOM BOOKING BAR */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+        <div className="flex items-center justify-between gap-4 max-w-md mx-auto">
+          <div>
+            <p className="text-xs text-gray-500 font-medium">Starting from</p>
+            <p className="text-xl font-bold text-gray-900">₹{pkg.price.startingFrom.toLocaleString("en-IN")}</p>
+          </div>
+          <Link href={whatsappLink} target="_blank" className="flex-1">
+            <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+              <MessageCircle className="w-5 h-5" />
+              Book Now
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* FULLSCREEN GALLERY LIGHTBOX */}
+      <AnimatePresence>
+        {isGalleryOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center"
+          >
+            <button 
+              onClick={() => setIsGalleryOpen(false)} 
+              className="absolute top-6 right-6 text-white/70 hover:text-white p-2 transition-colors z-10 bg-white/10 rounded-full hover:bg-white/20"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            {packageGallery.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage} 
+                  className="absolute left-4 md:left-10 text-white/70 hover:text-white p-3 transition-colors z-10 bg-white/5 rounded-full hover:bg-white/20"
+                >
+                  <ChevronLeft className="w-8 h-8 md:w-12 md:h-12" />
+                </button>
+                <button 
+                  onClick={nextImage} 
+                  className="absolute right-4 md:right-10 text-white/70 hover:text-white p-3 transition-colors z-10 bg-white/5 rounded-full hover:bg-white/20"
+                >
+                  <ChevronRight className="w-8 h-8 md:w-12 md:h-12" />
+                </button>
+              </>
+            )}
+
+            <div className="relative w-full max-w-5xl h-[60vh] md:h-[80vh] px-4">
+              <Image
+                src={packageGallery[currentImageIndex]}
+                alt={`${pkg.title} Gallery Image ${currentImageIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            </div>
+
+            {packageGallery.length > 1 && (
+              <div className="absolute bottom-8 text-white font-medium tracking-wide bg-black/50 px-4 py-2 rounded-full">
+                {currentImageIndex + 1} / {packageGallery.length}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </main>
   );
 }
