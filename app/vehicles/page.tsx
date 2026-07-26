@@ -59,7 +59,7 @@ const fleet = [
     name: "15–26 Seater Mini Bus",
     badge: "Mid-sized Groups",
     description: "Versatile and comfortable mini buses tailored for mid-sized groups. The perfect balance between a large coach and a personal car, ideal for family functions.",
-    image: "/vehicles/Mini Bus.png",
+    image: "/vehicles/urbania.jpg",
     features: [
       "Comfortable Seating",
       "AC / Non-AC Options Available",

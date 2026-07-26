@@ -54,7 +54,7 @@ const vehicles = [
     id: 4,
     name: "Mini Bus / Urbania / Tempo Traveler",
     description: "Versatile 25–33 seater mini buses for mid-sized groups.",
-    image: "/vehicles/Mini Bus.png",
+    image: "/vehicles/urbania.jpg",
     features: [
       { icon: <Users className="w-4 h-4" />, text: "25–33 Seater" },
       { icon: <Users className="w-4 h-4" />, text: "Family Functions" },

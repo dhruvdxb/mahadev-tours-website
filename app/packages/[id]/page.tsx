@@ -23,7 +23,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  HelpCircle // <-- Added an icon for the FAQ header
+  HelpCircle
 } from "lucide-react";
 
 // --- DATA (Generic FAQs) ---
@@ -52,7 +52,7 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
   
   // States
   const [expandedDay, setExpandedDay] = useState<string | null>("Day 1");
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(0); // Open the first FAQ by default
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const packageGallery = pkg.gallery || [pkg.image];
@@ -215,7 +215,7 @@ export default function PackageDetail({ params }: { params: Promise<{ id: string
               </div>
             )}
 
-            {/* NEW: FAQs Section */}
+            {/* FAQs Section */}
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-emerald-100 p-2 rounded-lg">
