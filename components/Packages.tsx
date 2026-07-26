@@ -3,73 +3,16 @@
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Bus, Utensils, Info, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image"; // <-- Added Next.js Image component
-
-type TourPackage = {
-  id: number;
-  title: string;
-  duration: string;
-  departureDates: string[];
-  vehicle: string;
-  inclusions: string[];
-  price: {
-    startingFrom: number;
-    details: string;
-  };
-  location: string;
-  description?: string;
-  notes?: string;
-  image: string; 
-};
-
-const tourPackages: TourPackage[] = [
-  {
-    id: 1,
-    title: "Maharashtra Jyotirlinga (Grishneshwar, Bhimashankar & Trimbakeshwar)",
-    duration: "3 Days",
-    departureDates: ["July 30 (Thursday Night)"],
-    vehicle: "Sleeper AC Bus",
-    inclusions: ["Meals", "Stay"],
-    price: { startingFrom: 5001, details: "₹5,001 (Upper Berth) / ₹5,501 (Lower Berth)" },
-    location: "Maharashtra",
-    image: "/Images/Maharashtra Jyotirlinga.png"
-  },
-  {
-    id: 2,
-    title: "Mayadevi Waterfall Monsoon Special",
-    duration: "1 Day",
-    departureDates: ["July 4 (Saturday)", "July 19 (Sunday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
-    location: "Gujarat",
-    image: "/Images/Mayadevi Waterfall.png"
-  },
-  {
-    id: 3,
-    title: "Padamdungari & Unai Nature Tour",
-    duration: "1 Day",
-    departureDates: ["July 5 (Sunday)", "July 18 (Saturday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Transportation Only"],
-    price: { startingFrom: 500, details: "₹500 (Fare Only)" },
-    location: "Gujarat",
-    image: "/Images/Padamdungari & Unai Nature Tour.png"
-  },
-  {
-    id: 4,
-    title: "Vangan-Ankda Waterfall Tour",
-    duration: "1 Day",
-    departureDates: ["July 11 (Saturday)", "July 26 (Sunday)"],
-    vehicle: "Seating Bus",
-    inclusions: ["Tea", "Breakfast", "Meals"],
-    price: { startingFrom: 900, details: "₹900 (All Inclusive)" },
-    location: "Gujarat",
-    image: "/Images/Vangan-Ankda Waterfall Tour.png"
-  }
-];
+import Image from "next/image"; 
+import { tourPackages } from "@/data/packages"; // <-- Imported centralized data
 
 export default function Packages() {
+  // Specifically select Maharashtra Jyotirlinga (1), Ashtavinayak (9), and Saputara (5)
+  const targetIds = [1, 9, 5];
+  const displayedPackages = tourPackages
+    .filter(pkg => targetIds.includes(pkg.id))
+    .sort((a, b) => targetIds.indexOf(a.id) - targetIds.indexOf(b.id));
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
@@ -86,9 +29,9 @@ export default function Packages() {
           </div>
         </div>
 
-        {/* Dynamic Grid: Slice(0,3) forces only the first 3 to show on the homepage */}
+        {/* Dynamic Grid: Maps through the 3 specific packages */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tourPackages.slice(0, 3).map((pkg, index) => {
+          {displayedPackages.map((pkg, index) => {
             const whatsappMessage = encodeURIComponent(`Hello Ajay Patel, I want to inquire about the ${pkg.title} package.`);
             const whatsappLink = `https://wa.me/917802062340?text=${whatsappMessage}`;
 
@@ -143,7 +86,7 @@ export default function Packages() {
                   <div className="space-y-2.5 mb-6 bg-muted/30 p-4 rounded-xl border border-border/50">
                     <div className="flex items-start gap-2.5 text-sm text-foreground">
                       <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      <span className="font-medium">{pkg.departureDates.join(", ")}</span>
+                      <span className="font-medium">{pkg.departureDates?.join(", ") || "Contact for dates"}</span>
                     </div>
                     
                     <div className="flex items-start gap-2.5 text-sm text-foreground">

@@ -15,7 +15,8 @@ import {
 const backgroundImages = [
   "/CoverPhoto.png", // Image 1
   "/Images/Maharashtra Jyotirlinga.png", // Image 2 (Replace with your actual file name)
-  "/Images/Statue of Unity.png", // Image 3 (Replace with your actual file name)
+  "/Images/Statue of Unity.png",
+  "/Ashtavinayak-2.png" // Image 3 (Replace with your actual file name)
 ];
 
 export default function Hero() {

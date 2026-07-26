@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { MapPin, Calendar, Clock, Search, SlidersHorizontal, Bus, Utensils, Info } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { tourPackages } from "@/data/packages"; // <-- Centralized data import
+import { tourPackages } from "@/data/packages"; 
 
 const categoriesList = ["All", "Religious", "Monsoon", "Weekend Trip", "Family"];
 
@@ -13,27 +13,29 @@ export default function PackagesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const filteredPackages = tourPackages.filter((pkg) => {
-    const matchesSearch = 
-      pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      pkg.location.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = 
-      selectedCategory === "All" || pkg.categories.includes(selectedCategory);
+  const filteredPackages = tourPackages
+    .filter((pkg) => {
+      const matchesSearch = 
+        pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        pkg.location.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesCategory = 
+        selectedCategory === "All" || pkg.categories.includes(selectedCategory);
 
-    return matchesSearch && matchesCategory;
-  });
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <main className="min-h-screen bg-background pt-36 pb-16">
+    <main className="min-h-screen bg-gray-50 pt-36 pb-16">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
         
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
             Explore Packages
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">
+          <p className="text-lg text-gray-500 max-w-2xl">
             Discover curated journeys crafted for spiritual peace, weekend thrills, and family bonding.
           </p>
         </div>
@@ -42,32 +44,32 @@ export default function PackagesPage() {
           
           {/* SIDEBAR FILTERS */}
           <aside className="w-full lg:w-1/4 shrink-0">
-            <div className="bg-card rounded-2xl p-6 border border-border shadow-sm sticky top-28">
+            <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm sticky top-28">
               <div className="flex items-center gap-2 mb-6">
-                <SlidersHorizontal className="w-5 h-5 text-foreground" />
-                <h3 className="text-lg font-bold text-foreground">Filters</h3>
+                <SlidersHorizontal className="w-5 h-5 text-gray-900" />
+                <h3 className="text-lg font-bold text-gray-900">Filters</h3>
               </div>
 
               {/* Search Bar */}
               <div className="mb-8">
-                <label className="block text-sm font-semibold text-muted-foreground mb-2">
+                <label className="block text-sm font-semibold text-gray-500 mb-2">
                   Search Destination
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="e.g. Somnath, Saputara..."
+                    placeholder="e.g. Somnath, Pune..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#137573]/20 focus:border-[#137573] transition-all placeholder:text-gray-400"
                   />
                 </div>
               </div>
 
               {/* Categories */}
               <div>
-                <label className="block text-sm font-semibold text-muted-foreground mb-3">
+                <label className="block text-sm font-semibold text-gray-500 mb-3">
                   Categories
                 </label>
                 <div className="flex flex-col gap-2">
@@ -75,10 +77,10 @@ export default function PackagesPage() {
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                      className={`text-left px-4 py-3 rounded-xl text-sm font-bold transition-all ${
                         selectedCategory === category
-                          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                          : "bg-background text-muted-foreground border border-border hover:border-primary/50 hover:bg-muted/50"
+                          ? "bg-[#137573] text-white shadow-md shadow-[#137573]/20"
+                          : "bg-white text-gray-600 border border-gray-200 hover:border-[#137573]/50 hover:bg-gray-50"
                       }`}
                     >
                       {category}
@@ -93,11 +95,11 @@ export default function PackagesPage() {
           <div className="w-full lg:w-3/4">
             
             {filteredPackages.length === 0 ? (
-              <div className="text-center py-20 bg-card rounded-2xl border border-dashed border-border">
-                <p className="text-muted-foreground text-lg">No packages found matching your criteria.</p>
+              <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+                <p className="text-gray-500 text-lg">No packages found matching your criteria.</p>
                 <button 
                   onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
-                  className="mt-4 text-primary font-semibold hover:underline"
+                  className="mt-4 text-[#137573] font-bold hover:underline"
                 >
                   Clear filters
                 </button>
@@ -114,10 +116,10 @@ export default function PackagesPage() {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: index * 0.05 }}
-                      className="group bg-card rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+                      className="group bg-white rounded-[2rem] border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                     >
                       {/* Image Linked to Dynamic Page */}
-                      <Link href={`/packages/${pkg.id}`} className="relative h-52 w-full overflow-hidden bg-gray-100 flex items-center justify-center block">
+                      <Link href={`/packages/${pkg.id}`} className="relative h-56 w-full overflow-hidden bg-gray-100 flex items-center justify-center shrink-0 block">
                         <Image
                           src={pkg.image}
                           alt={pkg.title}
@@ -126,14 +128,9 @@ export default function PackagesPage() {
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         
-                        {/* Category Badge */}
-                        <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm text-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">
-                          {pkg.categories[0]}
-                        </div>
-
                         {/* Duration Badge */}
-                        <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm text-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm z-10">
-                          <Clock className="w-3.5 h-3.5" />
+                        <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm z-10">
+                          <Clock className="w-3.5 h-3.5 text-gray-700" />
                           {pkg.duration}
                         </div>
                       </Link>
@@ -142,61 +139,64 @@ export default function PackagesPage() {
                       <div className="p-6 flex flex-col flex-grow">
                         
                         {/* Location */}
-                        <div className="flex items-center gap-1.5 text-muted-foreground text-xs font-bold uppercase tracking-wider mb-2">
+                        <div className="flex items-center gap-1.5 text-gray-500 text-xs font-bold uppercase tracking-wider mb-2 shrink-0">
                           <MapPin className="w-3.5 h-3.5" />
                           {pkg.location}
                         </div>
                         
-                        {/* Title Linked to Dynamic Page */}
-                        <Link href={`/packages/${pkg.id}`}>
-                          <h3 className="text-xl font-bold text-foreground leading-tight mb-3 group-hover:text-primary transition-colors">
+                        {/* Title (Forced to min-height so 1-line titles match 2-line titles) */}
+                        <Link href={`/packages/${pkg.id}`} className="shrink-0">
+                          <h3 className="text-xl font-bold text-gray-900 leading-tight mb-3 group-hover:text-[#137573] transition-colors line-clamp-2 min-h-[3.5rem]">
                             {pkg.title}
                           </h3>
                         </Link>
 
-                        {/* Optional Description */}
+                        {/* Optional Description (Forced to 2 lines max) */}
                         {pkg.description && (
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                          <p className="text-sm text-gray-500 mb-4 line-clamp-2 shrink-0">
                             {pkg.description}
                           </p>
                         )}
 
                         {/* Details List */}
-                        <div className="space-y-2.5 mb-6 bg-muted/30 p-4 rounded-xl border border-border/50">
-                          <div className="flex items-start gap-2.5 text-sm text-foreground">
-                            <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span className="font-medium">{pkg.departureDates?.join(", ") || "Contact for dates"}</span>
+                        <div className="space-y-2.5 mb-6 bg-gray-50/80 p-4 rounded-2xl border border-gray-100 shrink-0">
+                          <div className="flex items-start gap-2.5 text-sm text-gray-700">
+                            <Calendar className="w-4 h-4 text-[#137573] shrink-0 mt-0.5" />
+                            <span className="font-medium line-clamp-1" title={pkg.departureDates?.join(", ")}>
+                              {pkg.departureDates?.join(", ") || "Contact for dates"}
+                            </span>
                           </div>
                           
-                          <div className="flex items-start gap-2.5 text-sm text-foreground">
-                            <Bus className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span>{pkg.vehicle}</span>
+                          <div className="flex items-start gap-2.5 text-sm text-gray-700">
+                            <Bus className="w-4 h-4 text-[#137573] shrink-0 mt-0.5" />
+                            <span className="line-clamp-1">{pkg.vehicle}</span>
                           </div>
                           
-                          <div className="flex items-start gap-2.5 text-sm text-foreground">
-                            <Utensils className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                            <span>{pkg.inclusions.join(", ")}</span>
+                          <div className="flex items-start gap-2.5 text-sm text-gray-700">
+                            <Utensils className="w-4 h-4 text-[#137573] shrink-0 mt-0.5" />
+                            <span className="line-clamp-1" title={pkg.inclusions.join(", ")}>{pkg.inclusions.join(", ")}</span>
                           </div>
 
                           {/* Optional Notes */}
                           {pkg.notes && (
-                            <div className="flex items-start gap-2.5 text-xs text-muted-foreground pt-1">
+                            <div className="flex items-start gap-2.5 text-xs text-gray-400 pt-1">
                               <Info className="w-4 h-4 shrink-0" />
-                              <span className="italic">{pkg.notes}</span>
+                              <span className="italic line-clamp-1" title={pkg.notes}>{pkg.notes}</span>
                             </div>
                           )}
                         </div>
 
-                        {/* Pricing and CTA */}
-                        <div className="mt-auto pt-2 flex flex-col xl:flex-row items-center justify-between gap-4">
-                          <div className="w-full xl:w-auto text-center xl:text-left">
-                            <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                        {/* Pricing and CTA (Forced to bottom, properly aligned) */}
+                        <div className="mt-auto pt-2 flex items-center justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">
                               Starting From
                             </p>
-                            <p className="text-2xl font-black text-primary">
+                            <p className="text-2xl font-black text-[#137573]">
                               ₹{pkg.price.startingFrom.toLocaleString("en-IN")}
                             </p>
-                            <p className="text-xs text-muted-foreground font-medium mt-1 max-w-[150px] leading-tight mx-auto xl:mx-0">
+                            {/* Truncated price details so it stays on one line */}
+                            <p className="text-xs text-gray-400 font-medium mt-0.5 truncate pr-2" title={pkg.price.details}>
                               {pkg.price.details}
                             </p>
                           </div>
@@ -204,7 +204,7 @@ export default function PackagesPage() {
                           <Link
                             href={whatsappLink}
                             target="_blank"
-                            className="w-full xl:w-auto text-center bg-primary text-primary-foreground px-6 py-3 rounded-xl text-sm font-bold shadow-md hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+                            className="shrink-0 bg-[#137573] text-white px-5 py-3 rounded-xl text-sm font-bold shadow-md hover:bg-[#0f5e5c] transition-colors whitespace-nowrap"
                           >
                             Book on WhatsApp
                           </Link>
