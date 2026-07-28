@@ -23,6 +23,7 @@ export default function RootLayout({
       lang="en"
       className="scroll-smooth light"
       style={{ colorScheme: "light" }}
+      data-scroll-behavior="smooth"
     >
       <body className={inter.className}>
         <Navbar />
