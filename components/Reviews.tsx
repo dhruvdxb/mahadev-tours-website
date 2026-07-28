@@ -42,7 +42,7 @@ const reviews = [
     tripName: "Saurashtra Tour",
     rating: 4,
     text: "Very well planned trip by Mahadev tours & travels. The same trip was cancelled twice on account of unavoidable external circumstance...",
-    image: "/Images/Saurashtra Tour.png",
+    image: "/Images/Saurastra.png",
   },
 ];
 
